@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { ShipWheelIcon } from 'lucide-react'
 import { Link } from 'react-router'
-
+import { useMutation } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
+import { signup } from '../lib/api.js'
 
 const SignupPage = () => {
   const [signupData, setSignupData] = useState({
@@ -9,14 +11,17 @@ const SignupPage = () => {
     email: '',
     password: '',
   })
+  
+  const querryClient = useQueryClient();
+  const {mutate:signupMutation, isPending, error} = useMutation({
+    mutationFn: signup,
+    onSuccess: () => querryClient.invalidateQueries({ querryKey: ['authUser'] }),
+  })
 
   const handleSignup = (e) => {
     e.preventDefault();
-    // signupMutation(signupData);
-    withCredentials: true
-    // Handle signup logic here
+    signupMutation(signupData);
   }
-  
 
   return (
     <div className='h-screen flex justify-center items-center p-4 sm:4 md:8' data-theme="valentine">
@@ -30,6 +35,14 @@ const SignupPage = () => {
               Connectify
             </span>
           </div>
+
+          {/* ERROR MESSAGE IF ANY */}
+          {error && (
+            <div className="alert alert-error mb-4 text-base">
+              <span>{error.response.data.message}</span>
+            </div>
+          )}
+
           <div className='w-full'>
             <form onSubmit={handleSignup}>
               <div className='space-y-4'>
@@ -105,7 +118,14 @@ const SignupPage = () => {
                 </div>
               </div>
               <button className="btn btn-primary w-full" type="submit">
-                Create Account
+                {isPending ? (
+                    <>
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Loading...
+                    </>
+                  ) : (
+                    "Create Account"
+                  )}
               </button>
 
               <div className="text-center mt-4">
