@@ -10,24 +10,30 @@ import { Navigate, Route, Routes } from 'react-router';
 import {Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { axiosInstance } from './lib/axious.js';
+import PageLoader from './components/pageLoader.jsx';
+import { getAuthUser } from './lib/api.js';
 
 const App = () => {
   const { data:authData, isLoading, error } = useQuery({
     queryKey: ['authUser'],
-    queryFn: async () => {
-      const response = await axiosInstance.get('/auth/me');
-      return response.data;
-    },
+    queryFn: getAuthUser,
     retry: true,
   });
-const authUser = authData?.user;
-
+  const authUser = authData?.user;
+  
+  const isAuthenticated = Boolean(authUser);
+  const isOnboarded = authUser?.isOnboarded;
+  if(isLoading){
+    return <PageLoader />;
+  }
   return (
     <div className="h-screen text-5xl" data-theme= "valentine">
       <Routes>
-        <Route path='/' element={authUser? <HomePage /> : <Navigate to='/login'/>} /> //need to work on this redirection
+        <Route path='/' element={isAuthenticated && isOnboarded ? (
+          <HomePage /> 
+          ) : (
+            <Navigate to={!isAuthenticated ? '/login' : '/onboarding'}/>
+          )} /> 
         <Route path='/signup' element={!authUser? <SignupPage /> : <Navigate to ='/'/>} />
         <Route path='/login' element={!authUser? <LoginPage /> : <Navigate to ='/'/>} />
         <Route path='/chat' element={authUser? <ChatPage /> : <Navigate to ='/login'/>} />
