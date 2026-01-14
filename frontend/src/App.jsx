@@ -11,15 +11,11 @@ import {Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import PageLoader from './components/pageLoader.jsx';
-import { getAuthUser } from './lib/api.js';
+import useAuthUser from './hooks/useAuthuser.js';
 
 const App = () => {
-  const { data:authData, isLoading, error } = useQuery({
-    queryKey: ['authUser'],
-    queryFn: getAuthUser,
-    retry: true,
-  });
-  const authUser = authData?.user;
+  const { isLoading, authUser } = useAuthUser();
+  // const authUser = authData?.user;
   
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
@@ -34,12 +30,23 @@ const App = () => {
           ) : (
             <Navigate to={!isAuthenticated ? '/login' : '/onboarding'}/>
           )} /> 
-        <Route path='/signup' element={!authUser? <SignupPage /> : <Navigate to ='/'/>} />
-        <Route path='/login' element={!authUser? <LoginPage /> : <Navigate to ='/'/>} />
-        <Route path='/chat' element={authUser? <ChatPage /> : <Navigate to ='/login'/>} />
-        <Route path='/notifications' element={authUser? <NotificationPage /> : <Navigate to ='/login'/>} />
-        <Route path='/call' element={authUser? <CallPage /> : <Navigate to ='/login'/>} />
-        <Route path='/onboarding' element={authUser? <OnboardingPage /> : <Navigate to ='/login'/>} />
+        <Route path='/signup' element={!isAuthenticated? <SignupPage /> : <Navigate to ='/'/>} />
+        <Route 
+          path='/login' 
+          element={!isAuthenticated? <LoginPage /> : <Navigate to ={isOnboarded ? '/' : '/onboarding'}/>
+          }
+        />
+        <Route path='/chat' element={isAuthenticated? <ChatPage /> : <Navigate to ='/login'/>} />
+        <Route path='/notifications' element={isAuthenticated? <NotificationPage /> : <Navigate to ='/login'/>} />
+        <Route path='/call' element={isAuthenticated? <CallPage /> : <Navigate to ='/login'/>} />
+        <Route
+         path='/onboarding' 
+         element={isAuthenticated? (
+          !isOnboarded ? <OnboardingPage /> : <Navigate to ='/'/>
+         ) : (
+          <Navigate to ='/login'/>
+         )}
+        />
 
       </Routes>
       <Toaster position='top-center' reverseOrder={false} />
