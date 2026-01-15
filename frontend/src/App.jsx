@@ -13,18 +13,23 @@ import { useQuery } from '@tanstack/react-query';
 import PageLoader from './components/pageLoader.jsx';
 import useAuthUser from './hooks/useAuthuser.js';
 import { Layout } from './components/Layout.jsx';
+import {useThemeStore} from './store/useThemeStore.js';
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
   // const authUser = authData?.user;
   
+  const { theme } = useThemeStore();
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
   if(isLoading){
     return <PageLoader />;
   }
+
+
+
   return (
-    <div className="h-screen text-5xl" data-theme= "valentine">
+    <div className="h-screen text-5xl" data-theme= {theme}>
       <Routes>
         {/* <Route 
           path='/' 
