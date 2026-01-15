@@ -27,3 +27,14 @@ export const completeOnboarding = async (userData) => {
     const response = await axiosInstance.post('/auth/onboarding', userData);
     return response.data;
 }
+
+export const getFriendRequests = async () => {
+    const response = await axiosInstance.get('/users/friend-requests');
+    return response.data;
+}
+
+export const acceptFriendRequest = async (requestId) => {
+    const response = await axiosInstance.post(`/users/friend-requests/${requestId}/accept`);
+    return response.data;
+}
+

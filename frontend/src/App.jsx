@@ -55,7 +55,7 @@ const App = () => {
           }
         />
         <Route path='/chat' element={isAuthenticated? <ChatPage /> : <Navigate to ='/login'/>} />
-        <Route path='/notifications' element={isAuthenticated? <NotificationPage /> : <Navigate to ='/login'/>} />
+        <Route path='/notifications' element={<NotificationPage />} />
         <Route path='/call' element={isAuthenticated? <CallPage /> : <Navigate to ='/login'/>} />
         <Route
          path='/onboarding' 
