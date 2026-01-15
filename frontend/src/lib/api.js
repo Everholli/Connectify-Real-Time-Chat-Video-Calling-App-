@@ -1,4 +1,3 @@
-import { TextCursor } from 'lucide-react';
 import { axiosInstance } from './axious.js';
 
 export const signup = async (signupData) => {
@@ -7,6 +6,10 @@ export const signup = async (signupData) => {
 }
 export const login = async (loginData) => {
     const response = await axiosInstance.post('/auth/login', loginData);
+    return response.data;
+}
+export const logout = async (loginData) => {
+    const response = await axiosInstance.post('/auth/logout', loginData);
     return response.data;
 }
 

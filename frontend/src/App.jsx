@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import PageLoader from './components/pageLoader.jsx';
 import useAuthUser from './hooks/useAuthuser.js';
+import { Layout } from './components/Layout.jsx';
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -25,11 +26,23 @@ const App = () => {
   return (
     <div className="h-screen text-5xl" data-theme= "valentine">
       <Routes>
-        <Route path='/' element={isAuthenticated && isOnboarded ? (
-          <HomePage /> 
-          ) : (
+        {/* <Route 
+          path='/' 
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <HomePage />
+              </Layout>
+            ) : (
             <Navigate to={!isAuthenticated ? '/login' : '/onboarding'}/>
-          )} /> 
+          )} 
+        />  */}
+        <Route path='/' element={
+          <Layout showSidebar={true}>
+            <HomePage />
+          </Layout>
+        } />
+
         <Route path='/signup' element={!isAuthenticated? <SignupPage /> : <Navigate to ='/'/>} />
         <Route 
           path='/login' 
