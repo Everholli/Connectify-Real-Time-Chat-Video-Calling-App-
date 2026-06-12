@@ -6,7 +6,7 @@ import NotificationPage from './pages/NotificationPage';
 import CallPage from './pages/CallPage';
 import OnboardingPage from './pages/OnboardingPage';
 
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import {Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -31,7 +31,7 @@ const App = () => {
   return (
     <div className="h-screen text-5xl" data-theme= {theme}>
       <Routes>
-        {/* <Route 
+        <Route 
           path='/' 
           element={
             isAuthenticated && isOnboarded ? (
@@ -41,21 +41,33 @@ const App = () => {
             ) : (
             <Navigate to={!isAuthenticated ? '/login' : '/onboarding'}/>
           )} 
-        />  */}
-        <Route path='/' element={
+        /> 
+
+        <Route path='/friends' element={
           <Layout showSidebar={true}>
             <HomePage />
           </Layout>
         } />
 
-        <Route path='/signup' element={!isAuthenticated? <SignupPage /> : <Navigate to ='/'/>} />
+        <Route path='/signup' element={
+            !isAuthenticated? <SignupPage /> : <Navigate to ='/'/>
+          } 
+        />
         <Route 
           path='/login' 
-          element={!isAuthenticated? <LoginPage /> : <Navigate to ={isOnboarded ? '/' : '/onboarding'}/>
-          }
+          element={
+            !isAuthenticated? <LoginPage /> : <Navigate to ={isOnboarded ? '/' : '/onboarding'}/> 
+          } 
         />
-        {/* <Route path='/chat' element={isAuthenticated? <ChatPage /> : <Navigate to ='/login'/>} /> */}
-        <Route path='/chat' element={<Navigate to ='/chat'/>} />
+        <Route path='/chat' element={
+            isAuthenticated? <ChatPage /> : <Navigate to ='/login'/>
+          } 
+        />
+        <Route path='/chat' element={
+          <Layout showSidebar={true}>
+            <ChatPage />
+          </Layout>
+        } />
         <Route path='/notifications' element={<NotificationPage />} />
         {/* <Route path='/call' element={isAuthenticated? <CallPage /> : <Navigate to ='/login'/>} /> */}
         <Route

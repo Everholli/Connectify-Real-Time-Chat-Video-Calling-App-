@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ShipWheelIcon } from 'lucide-react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { useQueryClient } from '@tanstack/react-query'
 import { signup } from '../lib/api.js'
@@ -38,9 +38,12 @@ const SignupPage = () => {
 
           {/* ERROR MESSAGE IF ANY */}
           {error && (
-            <div className="alert alert-error mb-4 text-base">
-              <span>{error.response.data.message}</span>
-            </div>
+                <div className="alert alert-error mb-4 text-base">
+                  <span>
+                    {error?.response?.data?.message || error?.message || "Something went wrong"}
+                  </span>
+                  {console.log(error)}
+                </div>
           )}
 
           <div className='w-full'>

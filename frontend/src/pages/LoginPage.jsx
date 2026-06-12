@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {login} from '../lib/api.js';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { ShipWheelIcon } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
 

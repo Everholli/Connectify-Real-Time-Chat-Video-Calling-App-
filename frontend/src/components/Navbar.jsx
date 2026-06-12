@@ -1,6 +1,6 @@
 import React, { use } from 'react'
 import { logout } from '../lib/api'
-import { useLocation, Link } from 'react-router';
+import { useLocation, Link } from 'react-router-dom';
 import useAuthUser from '../hooks/useAuthuser.js';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
