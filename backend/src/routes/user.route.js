@@ -9,13 +9,13 @@ const router = express.Router();
 router.use(protectRoute);
 
 router.get('/friends', getMyFriends);
-router.get('/', getrecommmendedUsers);
+router.get('/recommended-users', getrecommmendedUsers);
 
-router.post('/friendRequest/:id', sendFriendRequest);
-router.put('/friendRequest/:id/accept', acceptFriendRequest);
+router.post('/friend-request/:id', sendFriendRequest);
+router.put('/friend-request/:id/accept', acceptFriendRequest);
 
-router.get('/friendRequests', getFriendRequests);
-router.get('/outgoingFriendRequests', getOutgoingFriendRequests);
+router.get('/friend-requests', getFriendRequests);
+router.get('/outgoing-friend-requests', getOutgoingFriendRequests);
 
 
 export default router;

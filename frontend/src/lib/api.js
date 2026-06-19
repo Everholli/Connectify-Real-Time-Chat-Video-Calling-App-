@@ -54,7 +54,7 @@ export async function sendFriendRequest(userId) {
 }
 
 export async function getRecommendedUsers() {
-  const response = await axiosInstance.get("/users");
+  const response = await axiosInstance.get("/users/recommended-users");
   return response.data;
 }
 

@@ -98,6 +98,8 @@ export async function login(req, res){
             sameSite: 'strict',
             maxAge: 7 * 24 * 60 * 60 * 1000 
         });
+        console.log(req.cookies);
+        console.log(token);
         
         res.status(200).json({
             message: "Login successful",
@@ -141,7 +143,8 @@ export async function onboarding(req, res){
             bio,
             nativeLanguage,
             learningLanguage,
-            location
+            location,
+            isOnboarded: true
         }, {new: true}).select('-password');
 
         if(!updatedUser){

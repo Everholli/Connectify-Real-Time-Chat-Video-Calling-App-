@@ -22,11 +22,12 @@ const OnboardingPage = () => {
     profilePic: authUser?.profilePic || '',    
   });
 
-  const {mutated:onboardingMutation, isPending} = useMutation({
+  const {mutate :onboardingMutation, isPending} = useMutation({
     mutationFn: completeOnboarding,
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Onboarding Completed!");
-      queryClient.invalidateQueries({queryKey: ['authUser']});
+      await queryClient.invalidateQueries({queryKey: ['authUser']});
+      await queryClient.refetchQueries({queryKey: ["authUser"]});
     },
 
     onError: (error) => {
